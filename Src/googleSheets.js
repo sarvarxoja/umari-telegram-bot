@@ -8,7 +8,7 @@ const __dirname = dirname(__filename);
 
 // Google Sheets API autentifikatsiya qilish
 const auth = new google.auth.GoogleAuth({
-  keyFile: path.resolve(__dirname, "credentials.json"), // Siz yuborgan json shu nomda saqlansin
+  credentials: JSON.parse(process.env.GOOGLE_CLOUD_CREDENTIALS), // Siz yuborgan json shu nomda saqlansin
   scopes: ["https://www.googleapis.com/auth/spreadsheets"],
 });
 
