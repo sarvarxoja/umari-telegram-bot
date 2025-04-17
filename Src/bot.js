@@ -25,12 +25,12 @@ const getToday = () => {
 
 const generateMongoOrderNumber = async () => {
   const today = getToday();
-  const count = await Order.countDocuments({ date: today });
-  return `${count + 1}-${today}`;
+  const count = await Order.findAndCountAll({ date: today });
+  return `${count.count + 1}-${today}`;
 };
 
 bot.onText(/\/start/, async (msg) => {
-  let user = await User.findOne({ chat_id: msg.chat.id });
+  let user = await User.findOne({ where: { chat_id: msg.chat.id } });
 
   if (!user) {
     await User.create({
@@ -43,10 +43,10 @@ bot.onText(/\/start/, async (msg) => {
   bot.sendMessage(msg.chat.id, "📸 Iltimos, mahsulot rasmini yuboring.");
 });
 
-cron.schedule("0 */2 * * *", async () => {
+cron.schedule("40 22 * * *", async () => {
   try {
-    const users = await User.find({ chat_id: { $exists: true } });
-    const messageText = `😊 Salom. Buyrtmalar mavjudmi?`
+    const users = await User.findAll();
+    const messageText = `😊 Salom. Buyrtmalar mavjudmi?`;
 
     for (const user of users) {
       await axios.post(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
@@ -287,8 +287,7 @@ Tasdiqlaysizmi?`;
 
 const saveToMongoDB = async (data) => {
   try {
-    const newOrder = new Order(data);
-    await newOrder.save();
+    await Order.create(data);
     console.log("✅ MongoDBga saqlandi");
   } catch (err) {
     console.error("❌ MongoDBga yozishda xatolik:", err);

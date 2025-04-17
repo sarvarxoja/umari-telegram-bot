@@ -1,19 +1,35 @@
-import mongoose, { Schema } from "mongoose";
+import { DataTypes, Model } from "sequelize";
+import newSequlize from "../config/index.js";
 
-const UserSchema = new Schema({
-  chat_id: {
-    type: Number,
+export class User extends Model {}
+
+User.init(
+  {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
+    },
+
+    username: {
+      type: DataTypes.STRING,
+      defaultValue: null,
+    },
+
+    chat_id: {
+      type: DataTypes.INTEGER,
+      defaultValue: null,
+    },
+
+    first_name: {
+      type: DataTypes.STRING,
+      defaultValue: null,
+    },
   },
+  {
+    tableName: "Users",
+    sequelize: newSequlize,
+  }
+);
 
-  username: {
-    type: String,
-    default: null,
-  },
-
-  first_name: {
-    type: String,
-    default: null,
-  },
-});
-
-export const User = mongoose.model("Users", UserSchema);
+User.sync();

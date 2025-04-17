@@ -1,14 +1,21 @@
-import mongoose from "mongoose";
+import pg from "pg";
+import { Sequelize } from "sequelize";
 
 const DB = process.env.DB;
 
-export const connectDB = async () => {
-  try {
-    const conn = await mongoose.connect(DB);
-    console.log(`MongoDB connected to: ${conn.connection.host}`);
-  } catch (error) {
-    console.log(error);
-  }
-};
+const newSequlize = new Sequelize(DB, {
+  logging: false,
+  dialect: "postgres",
+  dialectModule: pg,
+});
 
-connectDB();
+!(async function () {
+  try {
+    await newSequlize.authenticate();
+    console.log("successfully");
+  } catch (error) {
+    console.error(error);
+  }
+})();
+
+export default newSequlize;

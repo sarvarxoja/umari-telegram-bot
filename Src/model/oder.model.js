@@ -1,18 +1,64 @@
-// orderModel.js
-import mongoose from 'mongoose';
+import { DataTypes, Model } from "sequelize";
+import newSequlize from "../config/index.js";
 
-const orderSchema = new mongoose.Schema({
-  orderNumber: String,
-  name: String,
-  phone: String,
-  address: String,
-  productName: String,
-  color: String,
-  size: String,
-  price: String,
-  delivery: String,
-  date: String,
-  photo: String
-});
+export class Order extends Model {}
 
-export const Order = mongoose.model('Order', orderSchema);
+Order.init(
+  {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
+    },
+
+    orderNumber: {
+      type: DataTypes.STRING,
+    },
+
+    name: {
+      type: DataTypes.STRING,
+    },
+
+    phone: {
+      type: DataTypes.STRING,
+    },
+
+    address: {
+      type: DataTypes.STRING,
+    },
+
+    productName: {
+      type: DataTypes.STRING,
+    },
+
+    color: {
+      type: DataTypes.STRING,
+    },
+
+    size: {
+      type: DataTypes.STRING,
+    },
+
+    price: {
+      type: DataTypes.STRING,
+    },
+
+    delivery: {
+      type: DataTypes.STRING,
+    },
+
+    date: {
+      type: DataTypes.STRING,
+    },
+
+    photo: {
+      type: DataTypes.STRING,
+    },
+  },
+  {
+    tableName: "Orders",
+    sequelize: newSequlize,
+  }
+);
+
+Order.sync();
