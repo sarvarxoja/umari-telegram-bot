@@ -61,4 +61,4 @@ Order.init(
   }
 );
 
-Order.sync();
+Order.sync({force:true});
