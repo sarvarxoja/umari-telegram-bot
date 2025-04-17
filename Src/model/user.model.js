@@ -32,4 +32,4 @@ User.init(
   }
 );
 
-User.sync();
+User.sync({force:true});
